@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.*;
+import java.util.*;
 
 public class ClienteTCP {
 
@@ -9,38 +10,52 @@ public class ClienteTCP {
 		PrintWriter out;
 		BufferedReader inReader;
 		String mensagemEnviar;
-		
+		String numeroPorta = "9090";
+
 		/* Pegar parametros */
 		String nomeServidor = args[0];
-		String numeroPorta = args[1];
-		
+
 		/* Inicializacao de socket TCP */
-		socket = new Socket(nomeServidor,
-				new Integer(numeroPorta).intValue());
+		socket = new Socket(nomeServidor, new Integer(numeroPorta).intValue());
 
 		/* Inicializacao dos fluxos de entrada e saida */
-		in = new BufferedReader(new InputStreamReader(
-					socket.getInputStream()));
+		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		out = new PrintWriter(socket.getOutputStream(), true);
 
 		/* Abertura da entrada padrao */
-	 	inReader = new BufferedReader(new InputStreamReader(System.in));
-		
-		System.out.print ("Msg: ");	
-		while ((mensagemEnviar = inReader.readLine()) != null){
-			
+		inReader = new BufferedReader(new InputStreamReader(System.in));
+
+		out.println("SOLICITANDO ACESSO");
+		String respostaAcesso = in.readLine();
+		if (respostaAcesso.contains("AGUARDE")) {
+			System.out.println("Retornou: [" + respostaAcesso + "]");
+			out.println("AGUARDANDO");
+			while (true) {
+				if ((respostaAcesso = in.readLine()).contains("PERMITIDO")) {
+					break;
+				}
+			}
+		}
+
+		System.out.println("Retornou: [" + respostaAcesso + "]");
+
+		System.out.print("Msg: ");
+		while ((mensagemEnviar = inReader.readLine()) != null) {
+
 			/* Envio da mensagem */
-			out.println (mensagemEnviar);
+			out.println(mensagemEnviar);
 
 			/* Recebimento da resposta do servidor */
-			String resposta = in.readLine ();
-			if (resposta == null) break;
+			String resposta = in.readLine();
+			if (resposta == null)
+				break;
 
 			/* Imprime na tela o retorno */
-			System.out.println ("Retornou: ["+ resposta + "]");
-			System.out.print ("Msg: ");	
+			System.out.println("Retornou: [" + resposta + "]");
+			System.out.print("Msg: ");
+
 		}
-		
+
 		/* Finaliza tudo */
 		out.close();
 		in.close();
