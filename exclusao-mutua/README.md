@@ -26,3 +26,6 @@ java ServidorTCP
 ```
 java ClienteTCP 127.0.0.1
 ```
+
+## Preview
+![programa em execução](./img/preview01.png)
