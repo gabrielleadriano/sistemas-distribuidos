@@ -1,6 +1,6 @@
+// Bianca Krug de Jesus, Gabrielle Alice Adriano, Vinícius Mueller Landi
 import java.net.*;
 import java.io.*;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class ServidorTCP extends Thread {
@@ -13,9 +13,14 @@ public class ServidorTCP extends Thread {
 	public static BufferedReader in;
 
 	public void run() {
-		while (true) {
+		while (clientList.size() > 0) {
 			try {
 				newClientSocket = serverSocket.accept();
+
+				if (currentIndex == 0 && clientList.size() == 0) {
+					clientList.add(newClientSocket);
+					break;
+				}
 				clientList.add(newClientSocket);
 				analizeClient();
 			} catch (Exception e) {
@@ -30,6 +35,7 @@ public class ServidorTCP extends Thread {
 
 			PrintWriter outNewClient = new PrintWriter(newClientSocket.getOutputStream(), true);
 			BufferedReader inNewClient = new BufferedReader(new InputStreamReader(newClientSocket.getInputStream()));
+
 			outNewClient.println(msgAwait);
 			inNewClient.readLine();
 		}
@@ -44,11 +50,12 @@ public class ServidorTCP extends Thread {
 		serverSocket = new ServerSocket(new Integer(numeroPorta).intValue());
 
 		while (true) {
-			/* Espera por um cliente */
-			if (clientList.size() == 0) {
+			/* Se existe uma thread ainda ativa, o proximo cliente deve ser aceito por ela */
+			if (clientList.size() == 0 && Thread.activeCount() == 1) {
 				newClientSocket = serverSocket.accept();
 				clientList.add(newClientSocket);
 			}
+
 
 			if (clientList.size() > 0) {
 				ServidorTCP thread = new ServidorTCP();
@@ -78,6 +85,7 @@ public class ServidorTCP extends Thread {
 						if (currentIndex == clientList.size()) {
 							currentIndex = 0;
 							clientList.clear();
+							newClientSocket.close();
 						}
 						break;
 					} else {
@@ -89,7 +97,6 @@ public class ServidorTCP extends Thread {
 				out.close();
 				in.close();
 				clientSocket.close();
-				thread.interrupt();
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-# Exemplo de exclusão mútua utilizando soscket TCP
+# Exemplo de exclusão mútua utilizando socket TCP
 
 ## Introdução
 Desenvolvido para *Sistemas Distribuídos (FURB BCC)* com Java. No exemplo o servidor aguarda a conexão de clientes para acessar o quadro de avisos. Caso um cliente B conecte enquanto outro cliente A estiver acessando, é solicitado para B que aguarde até o fim do acesso de A.

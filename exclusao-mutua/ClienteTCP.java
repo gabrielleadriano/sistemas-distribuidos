@@ -1,6 +1,6 @@
+// Bianca Krug de Jesus, Gabrielle Alice Adriano, Vinícius Mueller Landi
 import java.io.*;
 import java.net.*;
-import java.util.*;
 
 public class ClienteTCP {
 
