@@ -1,6 +1,5 @@
-// Bianca Krug de Jesus, Gabrielle Alice Adriano, Vin�cius Mueller Landi
-package TCP;
 
+// Bianca Krug de Jesus, Gabrielle Alice Adriano, Vin�cius Mueller Landi
 import java.io.*;
 import java.net.*;
 import java.util.Random;
@@ -16,11 +15,11 @@ public class ClienteTCP {
 		String numeroPorta = "9090";
 
 		/* Pegar parametros */
-		String nomeServidor = "192.168.0.107";
+		String nomeServidor = "127.0.0.1";
 
 		/* Inicializacao de socket TCP */
 		socket = new Socket(nomeServidor, new Integer(numeroPorta).intValue());
-		
+
 		Random gerador = new Random();
 		int s = gerador.nextInt(86400);
 		printHorario(s);
@@ -34,15 +33,15 @@ public class ClienteTCP {
 
 		out.println("SOLICITANDO ACESSO");
 		int respostaAcesso = Integer.valueOf(in.readLine());
-		
-		int diferenca = s-respostaAcesso;
 
-		out.println("DIFERENCA: "+diferenca);
-		
+		int diferenca = s - respostaAcesso;
+
+		out.println("DIFERENCA: " + diferenca);
+
 		int retorno = Integer.valueOf(in.readLine());
-		
-		s = (s + (retorno + (diferenca*-1)));
-		
+
+		s = (s + (retorno + (diferenca * -1)));
+
 		printHorario(s);
 
 		/* Finaliza tudo */
@@ -55,8 +54,7 @@ public class ClienteTCP {
 		int hours = (int) Math.floor(s / 3600);
 		int minutes = (int) Math.floor((s - (hours * 60 * 60)) / 60);
 		int seconds = s - (hours * 60 * 60) - (minutes * 60);
-		
 
-		System.out.println("Horário: "+hours+":"+minutes+":"+seconds);
+		System.out.println("Horario: " + hours + ":" + minutes + ":" + seconds);
 	}
 }
