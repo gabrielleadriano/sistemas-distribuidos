@@ -1,4 +1,5 @@
 // Bianca Krug de Jesus, Gabrielle Alice Adriano, Vin�cius Mueller Landi
+package TCP;
 
 import java.io.*;
 import java.net.*;
@@ -15,8 +16,7 @@ public class ClienteTCP {
 		String numeroPorta = "9090";
 
 		/* Pegar parametros */
-//		String nomeServidor = args[0];
-		String nomeServidor = "127.0.0.1";
+		String nomeServidor = "192.168.0.107";
 
 		/* Inicializacao de socket TCP */
 		socket = new Socket(nomeServidor, new Integer(numeroPorta).intValue());
@@ -37,7 +37,7 @@ public class ClienteTCP {
 		
 		int diferenca = s-respostaAcesso;
 
-		out.println("DIFERENCA: " +diferenca);
+		out.println("DIFERENCA: "+diferenca);
 		
 		int retorno = Integer.valueOf(in.readLine());
 		
@@ -57,6 +57,6 @@ public class ClienteTCP {
 		int seconds = s - (hours * 60 * 60) - (minutes * 60);
 		
 
-		System.out.print("Horario: "+hours+":"+minutes+":"+seconds);
+		System.out.println("Horário: "+hours+":"+minutes+":"+seconds);
 	}
 }
